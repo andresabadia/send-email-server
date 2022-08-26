@@ -21,14 +21,19 @@ export class MailService {
         },
       });
 
-      await this.mailerService.sendMail({
-        transporterName,
-        to: emailBody.emailOptions.to,
-        from: emailBody.emailOptions.from,
-        subject: emailBody.emailOptions.subject,
-        text: emailBody.emailOptions.text,
-      });
-      console.log('email sent?');
+      for (let index = 0; index < emailBody.emailsOptions.length; index++) {
+        const emailOptions = emailBody.emailsOptions[index];
+        await this.mailerService.sendMail({
+          transporterName,
+          to: emailOptions.to,
+          from: emailOptions.from,
+          replyTo: emailOptions.replyTo,
+          subject: emailOptions.subject,
+          text: emailOptions.text,
+        });
+      }
+
+      console.log('email sent: ' + emailBody.emailsOptions.length);
       return true;
     } catch (error) {
       console.log(error);

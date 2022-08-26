@@ -7,6 +7,7 @@ export interface Transporter {
 
 export interface EmailOptions {
   from: string;
+  replyTo: string;
   to: string;
   subject: string;
   text: string;
@@ -15,5 +16,5 @@ export interface EmailOptions {
 
 export interface EmailBody {
   transporter: Transporter;
-  emailOptions: EmailOptions;
+  emailsOptions: EmailOptions[];
 }

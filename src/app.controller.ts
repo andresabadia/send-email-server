@@ -13,8 +13,8 @@ export class AppController {
 
   @Post()
   async sendEmail(@Body() emailBody: EmailBody) {
-    console.log(emailBody);
-    // return true;
+    // console.log(emailBody);
+    // return false;
     return await this.appService.sendEmail(emailBody);
   }
 }
