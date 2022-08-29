@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { AppService } from './app.service';
-import { EmailBody } from './models/EmailBody';
+import { EmailBodyDto } from './mail/dtos/emailBody.dto';
 
 @Controller()
 export class AppController {
@@ -12,9 +12,9 @@ export class AppController {
   }
 
   @Post()
-  async sendEmail(@Body() emailBody: EmailBody) {
+  async sendEmail(@Body() emailBody: EmailBodyDto) {
     // console.log(emailBody);
-    // return false;
+    // return true;
     return await this.appService.sendEmail(emailBody);
   }
 }

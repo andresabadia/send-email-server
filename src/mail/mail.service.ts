@@ -1,12 +1,12 @@
 import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';
-import { EmailBody } from 'src/models/EmailBody';
+import { EmailBodyDto } from './dtos/emailBody.dto';
 
 @Injectable()
 export class MailService {
   constructor(private mailerService: MailerService) {}
 
-  async sendEmail(emailBody: EmailBody) {
+  async sendEmail(emailBody: EmailBodyDto) {
     try {
       const transporterName = this.mailerService.addTransporter('smtp', {
         host: emailBody.transporter.host,

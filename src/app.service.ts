@@ -1,15 +1,15 @@
 import { Injectable } from '@nestjs/common';
+import { EmailBodyDto } from './mail/dtos/emailBody.dto';
 import { MailService } from './mail/mail.service';
-import { EmailBody } from './models/EmailBody';
 
 @Injectable()
 export class AppService {
   constructor(private mailService: MailService) {}
   getHello(): string {
-    return 'Hello World!!!';
+    return 'Hello World!';
   }
 
-  async sendEmail(emailBody: EmailBody) {
+  async sendEmail(emailBody: EmailBodyDto) {
     return await this.mailService.sendEmail(emailBody);
   }
 }
