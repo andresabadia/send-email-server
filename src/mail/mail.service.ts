@@ -9,15 +9,15 @@ export class MailService {
   async sendEmail(emailBody: EmailBodyDto) {
     try {
       const transporterName = this.mailerService.addTransporter('smtp', {
-        host: emailBody.transporter.host,
-        port: emailBody.transporter.port,
-        secure: true,
+        host: emailBody.transporter?.host || process.env.SMTP_HOST,
+        port: emailBody.transporter?.port || process.env.SMTP_PORT,
+        secure: process.env.SMTP_SECURE || true,
         auth: {
-          user: emailBody.transporter.user,
-          pass: emailBody.transporter.pass,
+          user: emailBody.transporter?.user || process.env.SMTP_USER,
+          pass: emailBody.transporter?.pass || process.env.SMTP_PASS,
         },
         tls: {
-          rejectUnauthorized: false,
+          rejectUnauthorized: process.env.SMTP_IGNORE_TLS || false,
         },
       });
 
@@ -26,8 +26,8 @@ export class MailService {
         await this.mailerService.sendMail({
           transporterName,
           to: emailOptions.to,
-          from: emailOptions.from,
-          replyTo: emailOptions.replyTo,
+          from: process.env.SMTP_FROM || emailOptions.from,
+          replyTo: emailOptions?.replyTo,
           subject: emailOptions.subject,
           text: emailOptions.text,
         });

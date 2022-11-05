@@ -6,12 +6,14 @@ import { MailService } from './mail.service';
   imports: [
     MailerModule.forRoot({
       transport: {
-        host: 'smtp.example.com',
-        secure: false,
+        host: process.env.SMTP_HOST || 'smtp.example.com',
+        port: process.env.SMTP_PORT,
+        secure: process.env.SMTP_SECURE || true,
         auth: {
-          user: 'user@example.com',
-          pass: 'topsecret',
+          user: process.env.SMTP_USER || 'user@example.com',
+          pass: process.env.SMTP_PASS || 'topsecret',
         },
+        tls: { rejectUnauthorized: process.env.SMTP_IGNORE_TLS || false },
       },
       defaults: {
         from: '"No Reply" <noreply@example.com>',

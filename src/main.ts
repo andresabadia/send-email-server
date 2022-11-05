@@ -11,7 +11,9 @@ async function bootstrap() {
     AppModule,
     new FastifyAdapter({ logger: true }),
   );
-  app.useGlobalPipes(new ValidationPipe());
+  const origins = process.env.CORS_ALLOWED?.split(';');
+  app.enableCors({ origin: origins || ['http://localhost:3001'] });
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
   await app.listen(3000, '0.0.0.0');
 }
 bootstrap();
