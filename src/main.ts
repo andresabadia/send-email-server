@@ -12,7 +12,7 @@ async function bootstrap() {
     new FastifyAdapter({ logger: true }),
   );
   const origins = process.env.CORS_ALLOWED?.split(';');
-  app.enableCors({ origin: origins || ['http://localhost:3001'] });
+  app.enableCors({ origin: origins || true });
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
   await app.listen(3000, '0.0.0.0');
 }

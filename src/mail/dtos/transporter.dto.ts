@@ -1,4 +1,4 @@
-import { IsNumber, IsString } from 'class-validator';
+import { IsBoolean, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class TransporterDto {
   @IsString()
@@ -12,4 +12,8 @@ export class TransporterDto {
 
   @IsString()
   pass: string;
+
+  @IsBoolean()
+  @IsOptional()
+  secure: boolean;
 }

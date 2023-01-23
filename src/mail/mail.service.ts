@@ -8,21 +8,29 @@ export class MailService {
 
   async sendEmail(emailBody: EmailBodyDto) {
     try {
-      const transporterName = this.mailerService.addTransporter('smtp', {
+      const config = {
         host: emailBody.transporter?.host || process.env.SMTP_HOST,
         port: emailBody.transporter?.port || process.env.SMTP_PORT,
-        secure: process.env.SMTP_SECURE || true,
+        secure:
+          emailBody.transporter?.secure === false
+            ? false
+            : process.env.SMTP_SECURE === 'false'
+            ? false
+            : true,
         auth: {
           user: emailBody.transporter?.user || process.env.SMTP_USER,
           pass: emailBody.transporter?.pass || process.env.SMTP_PASS,
         },
         tls: {
-          rejectUnauthorized: process.env.SMTP_IGNORE_TLS || false,
+          rejectUnauthorized:
+            process.env.SMTP_IGNORE_TLS === 'true' ? true : false,
         },
-      });
+      };
+      const transporterName = this.mailerService.addTransporter('smtp', config);
 
       for (let index = 0; index < emailBody.emailsOptions.length; index++) {
         const emailOptions = emailBody.emailsOptions[index];
+
         await this.mailerService.sendMail({
           transporterName,
           to: emailOptions.to,
@@ -36,7 +44,7 @@ export class MailService {
       console.log('email sent: ' + emailBody.emailsOptions.length);
       return true;
     } catch (error) {
-      console.log(error);
+      console.log('error sending email', error);
       return false;
     }
   }
